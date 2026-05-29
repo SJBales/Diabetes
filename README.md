@@ -1,5 +1,5 @@
 # Diabetes
-Task to predict which diabets patients are most likely to be readmitted to a hospital
+Project to predict which patients are most likely to be readmitted to a hospital within 30 days
 
 # Analysis Plan
 
