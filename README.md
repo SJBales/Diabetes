@@ -15,7 +15,7 @@ This project has two goals:
 ## Steps
 
 Predictive Model:
-- Exploratory analysis to understand outliers, distributions and outliers
+- Exploratory analysis to understand outliers, distributions and outliers --> complete
 - Divide into train, validation and test splits
 - Create pipeline for cleaning and preprocessing with the following steps:
   - Handle missing data
