@@ -20,7 +20,7 @@ Predictive Model:
 - Create pipeline for cleaning and preprocessing with the following steps:
   - Handle missing data
   - Scale numeric features and encode categorical features
-- Engineer feature
+- Engineer features
 - Fit, evaluate and compare models; select features
 - Assess feature importance and impact to socialize with stakeholders for proactive risk management
 - Package the post release model for deployment
