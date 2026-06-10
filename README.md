@@ -8,7 +8,11 @@ Hospital readmission within 30 days are a negative outcome for patients. A high 
 
 This project has two goals:
 - Identify which factors indicate patients are at higher risk of readmission for risk management ahead of discharge
-- Predict which patients are highest risk of readmission for mitigation measures post discharge, such as frequent follow-up calls and check-in visits.
+- Predict which patients are highest risk of readmission for mitigation measures post discharge, such as frequent follow-up calls and check-in visits
+
+## Evaluation Criteria
+
+Flagging patients as likely to readmit that don't (false positives) have a lower overall impact than missing patients that are likely to readmit (false negatives). False negatives cannot be fully optimized without considering false positives as it will add notification fatigue to the staff and impact their resourcing due to increased patient outreach. I will use specificity as the evaluation criteria to account for the relative greater impact of false negatives vs. false positives, but also monitor recall and precision-recall AUC.
 
 # Analysis Plan
 
