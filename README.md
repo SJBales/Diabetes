@@ -22,7 +22,7 @@ This project uses the DiabetesUS130 dataset from openML.
 
 ## Evaluation Criteria
 
-Flagging patients as likely to readmit that don't (false positives) have a lower overall impact than missing patients that are likely to readmit (false negatives). False negatives cannot be fully optimized without considering false positives as it will add notification fatigue to the staff and impact their resourcing due to increased patient outreach. I will use specificity as the evaluation criteria to account for the relative greater impact of false negatives vs. false positives, but also monitor recall and precision-recall AUC.
+Flagging patients as likely to readmit that don't (false positives) has a lower overall impact than missing patients that are likely to readmit (false negatives). False negatives cannot be fully optimized without considering false positives as it will add notification fatigue to the staff and impact their resourcing due to increased patient outreach. I will use recall to account for the relative greater impact of false negatives vs. false positives, but also monitor precision and precision-recall AUC.
 
 ## Analysis Plan -- Steps
 
