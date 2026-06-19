@@ -35,7 +35,7 @@ Predictive Model:
 - Engineer features
 - Fit, evaluate and compare models; select features
 - Assess feature importance and impact to socialize with stakeholders for proactive risk management
-- Package the post release model for deployment
+- Package the optimzied model for production
 
 # Results
 
