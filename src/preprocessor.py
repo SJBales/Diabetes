@@ -2,12 +2,12 @@ import pandas as pd
 import logging
 import warnings
 
-# Local module imports
-from src.logger_config import setup_logger
-from exceptions import NotProcessedError
-
 # Sklearn Imports
 from sklearn.model_selection import train_test_split
+
+# Local module imports
+from exceptions import NotProcessedError
+from logger_config import setup_logger
 
 # Setting up the logger
 setup_logger()
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 # Function for loading data
-def load_data():
+def load_data() -> tuple[pd.DataFrame, pd.DataFrame]:
 
     features = pd.read_parquet("data/diabetes_features.parquet")
     target = pd.read_parquet("data/diabetes_target.parquet")
@@ -30,7 +30,7 @@ def load_data():
 # Defining a class for handling all preprocessing steps
 class trainingPreprocessor:
 
-    def __init__(self, features, target) -> None:
+    def __init__(self, features: pd.DataFrame, target: pd.DataFrame) -> None:
         self.raw_features = features
         self.raw_target = target
         self.split_df = None
@@ -82,7 +82,7 @@ class trainingPreprocessor:
         self.split_df['missing_weight'] = (self.split_df['weight'] == "?").astype("int")
 
         # Utility function for encoding missing values in a column for one-hot encoding
-        def missing_cleaner(x, missing_code, encoding=""):
+        def missing_cleaner(x, missing_code: str, encoding=""):
             if x == missing_code:
                 return encoding
             else:
@@ -133,7 +133,7 @@ class trainingPreprocessor:
         # Logging completed work
         logger.info("Successfully created X & y dataframes")
 
-    def create_train_test(self, return_df=False, test_size_=0.2) -> pd.Dataframe | None:
+    def create_train_test(self, return_df=False, test_size_=0.2) -> pd.DataFrame | None:
         '''Creates train and test splits for modeling'''
 
         if return_df:
@@ -155,7 +155,9 @@ class trainingPreprocessor:
         self.first_encounter()
         self.handle_missings()
         self.create_X_y()
-        self.create_train_test(return_df=return_df, test_size_=test_size_)
+
+        if return_df:
+            return self.create_train_test(return_df=return_df, test_size_=test_size_)
 
         # Logging status
         logger.info("Successfully completed all cleaning steps")
@@ -234,6 +236,7 @@ class inferencePreprocessor:
             self.X = self.split_df.drop(columns=drop_features)
 
     def clean(self, return_df):
+        '''Master method for running all cleaning methods'''
 
         try:
             self.first_encounter()
