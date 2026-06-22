@@ -28,6 +28,7 @@ class getPipeline():
                                  'number_diagnoses']
         self.ORDINAL_COLS = ['age']
         self.ct = None
+        self.pipeline = None
 
     def make_column_transformer(self):
         '''Method for creating the column tranformer to use
