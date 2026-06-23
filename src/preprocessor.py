@@ -82,7 +82,7 @@ class trainingPreprocessor:
         self.split_df['missing_weight'] = (self.split_df['weight'] == "?").astype("int")
 
         # Utility function for encoding missing values in a column for one-hot encoding
-        def missing_cleaner(x, missing_code: str, encoding=""):
+        def missing_cleaner(x, missing_code: str, encoding="") -> None:
             if x == missing_code:
                 return encoding
             else:
@@ -104,7 +104,7 @@ class trainingPreprocessor:
         # Logging completed work
         logger.info("Successfully processed missing data")
 
-    def create_X_y(self):
+    def create_X_y(self) -> None:
         '''Creates X and y dataframes for modeling'''
 
         # Checking that missing data has been processed
@@ -133,31 +133,30 @@ class trainingPreprocessor:
         # Logging completed work
         logger.info("Successfully created X & y dataframes")
 
+    # Method for creating train and test splits
     def create_train_test(self, return_df=False, test_size_=0.2) -> pd.DataFrame | None:
         '''Creates train and test splits for modeling'''
 
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X,
+                                                                                self.y,
+                                                                                random_state=42,
+                                                                                test_size=test_size_)
+
         if return_df:
             logger.info("Returning train and test splits of X & y")
-            return train_test_split(self.X,
-                                    self.y,
-                                    random_state=42,
-                                    test_size=test_size_)
-        else:
-            self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X,
-                                                                                    self.y,
-                                                                                    random_state=42,
-                                                                                    test_size=test_size_)
-            logger.info("Assigning X and y splits as attributes")
+            return self.X_train, self.X_test, self.y_train, self.y_test
 
-    def clean(self, return_df=False, test_size_=0.2):
+    def clean(self, return_df=False, test_size_=0.2) -> pd.DataFrame | None:
         '''Master method for running all cleaning methods'''
 
         self.first_encounter()
         self.handle_missings()
         self.create_X_y()
+        self.create_train_test(return_df=return_df, test_size_=test_size_)
 
         if return_df:
-            return self.create_train_test(return_df=return_df, test_size_=test_size_)
+            logger.info("Returning train and test splits of X & y")
+            return self.X_train, self.X_test, self.y_train, self.y_test
 
         # Logging status
         logger.info("Successfully completed all cleaning steps")
@@ -212,7 +211,7 @@ class inferencePreprocessor:
         # Encoding Missing Payer Code and Medical Specialty
         self.split_df['payer_code_cleaned'] = self.split_df['payer_code']
 
-    def create_X(self, return_df=False):
+    def create_X(self, return_df=False) -> pd.DataFrame | None:
         '''Creates X dataframe for modeling'''
 
         # List of features to drop

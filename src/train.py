@@ -43,4 +43,3 @@ logger.info("Successfully created training pipeline")
 training_pipeline.fit(X_train, y_train)
 
 logger.info("Successfully fit model on training data")
-
