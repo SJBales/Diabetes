@@ -1,6 +1,7 @@
 from preprocessor import load_data, trainingPreprocessor
-from pipeline import getPipeline
+from pipeline import getPipeline, log_performance
 import logging
+import joblib
 
 # Setting up the logger
 from logger_config import setup_logger
@@ -43,3 +44,10 @@ logger.info("Successfully created training pipeline")
 training_pipeline.fit(X_train, y_train)
 
 logger.info("Successfully fit model on training data")
+
+# Evaluating performance
+log_performance(training_pipeline, X_train, y_train)
+log_performance(training_pipeline, X_test, y_test, kind="TEST")
+
+# Saving the model
+joblib.dump(training_pipeline, "models/RF_v1.0.pkl")
