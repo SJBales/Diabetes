@@ -152,7 +152,7 @@ class trainingPreprocessor:
         self.first_encounter()
         self.handle_missings()
         self.create_X_y()
-        self.create_train_test(return_df=return_df, test_size_=test_size_)
+        self.create_train_test(test_size_=test_size_)
 
         if return_df:
             logger.info("Returning train and test splits of X & y")
@@ -180,9 +180,11 @@ class inferencePreprocessor:
     def handle_missings(self) -> None:
         '''Handles preprocessing of missing data'''
 
-        # Checking that missing data has been processed for production, raises exception if not
-        if not self.missing_processed_:
-            raise NotProcessedError("Missing data has not been processed")
+        # Checking that the split DF has been created
+        if self.split_df is None:
+            logger.info("Data has not been limited to first encounter, running method")
+
+            self.first_encounter()
 
         # Creating a feature to indicate if a patient is not on insulin or metformin
         self.split_df['missing_insulin'] = (self.split_df.insulin == "No").astype(int)
@@ -211,11 +213,17 @@ class inferencePreprocessor:
         # Encoding Missing Payer Code and Medical Specialty
         self.split_df['payer_code_cleaned'] = self.split_df['payer_code']
 
+        self.missing_processed_ = True
+
     def create_X(self, return_df=False) -> pd.DataFrame | None:
         '''Creates X dataframe for modeling'''
 
+        # Checking that missing data has been processed for production, raises exception if not
+        if not self.missing_processed_:
+            raise NotProcessedError("Missing data has not been processed")
+
         # List of features to drop
-        drop_features = ['patient_nbr', 'encounter_id', 'target',
+        drop_features = ['patient_nbr', 'encounter_id',
                          'repaglinide', 'nateglinide', 'chlorpropamide',
                          'glimepiride', 'acetohexamide', 'glipizide',
                          'glyburide', 'tolbutamide',
@@ -228,19 +236,22 @@ class inferencePreprocessor:
                          'A1Cresult', 'weight', 'diag_1', 'diag_2', 'diag_3',
                          'max_glu_serum', 'change']
 
-        if return_df:
-            return self.split_df.drop(columns=drop_features)
-        else:
-            # Building X dataframe
-            self.X = self.split_df.drop(columns=drop_features)
+        self.X = self.split_df.drop(columns=drop_features)
 
-    def clean(self, return_df):
+        # Returning the dataframe
+        if return_df:
+            return self.X
+
+    def clean(self, return_df) -> pd.DataFrame | None:
         '''Master method for running all cleaning methods'''
 
         try:
             self.first_encounter()
             self.handle_missings()
-            self.create_X(return_df=return_df)
+            self.create_X()
+
+            if return_df:
+                return self.X
 
         except NotProcessedError:
             logger.exception("Pipeline step called out of order")
