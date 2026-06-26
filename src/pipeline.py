@@ -3,7 +3,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, MinMaxScaler, OrdinalEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import recall_score, average_precision_score
+from sklearn.metrics import recall_score, precision_score
 import logging
 
 # Local module imports
@@ -108,7 +108,7 @@ def log_performance(pipeline, X, y_actual, kind="TRAINING"):
     '''Method for determining performance on the test set'''
     preds = pipeline.predict(X)
 
-    recall, average_precision = recall_score(preds, y_actual), average_precision_score(preds, y_actual)
+    recall, average_precision = recall_score(y_actual, preds), precision_score(y_actual, preds, zero_division=0)
     logger.info(f"""------{kind}-------\n
                 Recall is {round(recall, 4)}.\n
                 Precision is {round(average_precision, 4)}""")
