@@ -1,7 +1,5 @@
-#### predict.py
+# To-Do's
 
-Build the script to make inference predictions
-
-#### model performance
-
-Diagnose drop in recall performance on train and test datasets
+Update design.md
+Write unit tests
+Create a write-up
