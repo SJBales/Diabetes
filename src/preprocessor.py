@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 # Function for loading data
 def load_data() -> tuple[pd.DataFrame, pd.DataFrame]:
+    '''Function to load both target and features from the 
+    local data'''
 
     features = pd.read_parquet("data/diabetes_features.parquet")
     target = pd.read_parquet("data/diabetes_target.parquet")
@@ -29,6 +31,7 @@ def load_data() -> tuple[pd.DataFrame, pd.DataFrame]:
 
 # Defining a class for handling all preprocessing steps
 class trainingPreprocessor:
+    '''Class to Create a Training Preprocessor'''
 
     def __init__(self, features: pd.DataFrame, target: pd.DataFrame) -> None:
         self.raw_features = features
@@ -83,6 +86,8 @@ class trainingPreprocessor:
 
         # Utility function for encoding missing values in a column for one-hot encoding
         def missing_cleaner(x, missing_code: str, encoding="") -> None:
+            '''Helper function for cleaning columns with specific strings
+            encoding missing values'''
             if x == missing_code:
                 return encoding
             else:
@@ -163,6 +168,7 @@ class trainingPreprocessor:
 
 
 class inferencePreprocessor:
+    '''Creating the class to handle preprocessing for inference'''
 
     def __init__(self, features) -> None:
         self.raw_features = features
@@ -242,7 +248,7 @@ class inferencePreprocessor:
         if return_df:
             return self.X
 
-    def clean(self, return_df) -> pd.DataFrame | None:
+    def clean(self, return_df: bool) -> pd.DataFrame | None:
         '''Master method for running all cleaning methods'''
 
         try:
