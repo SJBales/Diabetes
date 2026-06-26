@@ -1,18 +1,29 @@
 import joblib
 from preprocessor import inferencePreprocessor
 import pandas as pd
+import numpy as np
 
-# Loading the model
-pipeline = joblib.load("models/RF_v1.0.pkl")
 
-# Loading the data
-features = pd.read_parquet("data/inference_feature_example.parquet")
+def make_predictions() -> np.array:
+    '''Wrapper function to load model, data, set up preprocessor
+    and make predictions'''
+    # Loading the model
+    pipeline = joblib.load("models/RF_v1.0.pkl")
 
-# Setting up the preprocessor
-preproc = inferencePreprocessor(features)
+    # Loading the data
+    features = pd.read_parquet("data/inference_feature_example.parquet")
 
-# Preprocessing X
-X = preproc.clean(return_df=True)
+    # Setting up the preprocessor
+    preproc = inferencePreprocessor(features)
 
-# Making Predictions
-predictions = pipeline.predict(X)
+    # Preprocessing X
+    X = preproc.clean(return_df=True)
+
+    # Making Predictions
+    predictions = pipeline.predict(X)
+
+    return predictions
+
+
+if __name__ == "__main__":
+    make_predictions()
