@@ -2,7 +2,7 @@
 
 Identifying key contributors to diabetes patient readmission within 30 days and training a ML model to be deployed to predict which patients are most at risk for mitigation.
 
-# Problem Statement & Goals
+# 1. Problem Statement & Goals
 
 ## Business Impact
 
@@ -14,32 +14,40 @@ This project has two goals:
 - Identify which features indicate patients are at higher risk of readmission for risk management ahead of discharge
 - Predict which patients are highest risk of readmission for mitigation measures post discharge, such as frequent follow-up calls and check-in visits
 
-# Dataset
+# 2. Dataset
 
-This project uses the DiabetesUS130 dataset from openML. 
+This project uses the DiabetesUS130 dataset from openML which contains the readmission status (target) and readmission risk factors (features) of diabetes patients at 130 US hospitals. 
 
-# Methodology
+# 3. Methodology
 
 ## Evaluation Criteria
 
 Flagging patients as likely to readmit that don't (false positives) has a lower overall impact than missing patients that are likely to readmit (false negatives). False negatives cannot be fully optimized without considering false positives as it will add notification fatigue to the staff and impact their resourcing due to increased patient outreach. I will use recall to account for the relative greater impact of false negatives vs. false positives, but also monitor precision and average precision to balance false positives.
 
-## Analysis Plan -- Steps
+# 4. Results
 
-Predictive Model:
-- Exploratory analysis to understand outliers, distributions and outliers --> complete
-- Divide into train, validation and test splits
-- Create pipeline for cleaning and preprocessing with the following steps:
-  - Handle missing data
-  - Scale numeric features and encode categorical features
-- Engineer features
-- Fit, evaluate and compare models; select features
-- Assess feature importance and impact to socialize with stakeholders for proactive risk management
-- Package the optimzied model for production
+Final performance of the random forest classifier on the heldout test set (~15K observations) is:
 
-# Results
+- Recall: 60.4%
+- Precision: 11.49%
 
-# Limitations and Next Steps
+# 5. Running the Code
+
+## Setup
+
+All dependency module requirements are captured in requirements.txt. To run the code contained in the project, first set up a python virtual environment and run the command pip install -r requirements.txt to install all package dependencies.
+
+## Inference Predictions
+
+Making inference predictions is self-contained in src/train.py. To make predictions, run the script using python3 src/predict.py.
+
+## Training
+
+Model training steps are implemented in the src/train.py script. To retrain the mode, use the command python3 src/train.py.
+
+Note that the optimal hyperparameters are hard-coded for consistency over time. The wrapper function can be modified to accept an an argument or hyperparameters can be directly modified if needed. However, this is only recommended after drifts in production have been observed and additional experimentation has been conducted to reassess optimal hyperparameters. 
+
+# 6. Limitations and Next Steps
 
 ## Limitations
 
@@ -50,3 +58,5 @@ The dataset has a few limitations:
 3. Key patient data that is easy to collect is missing like weight
 
 ## Next Steps
+
+The dataset used in this project is static, with no direct interface to the business users to act on the predictions made from the model. Displaying the predictions in any existing technology nurses or other hopsital admin are using is an important next step to serve the predictions to the business users. Before that, the data pipeline and predictions will need to be refactored to handle live, incremental production data as adittional patients and admitted and discharged from hospitals. An important consideration is how often predictions should be made. Business users do not need real time predictions, and the likelihood of readmission will not change much once the features have been observed. Therefore, I recommend nightly batch processing of predictions of only newly discharged patients instead of configuring streaming predictions.
