@@ -6,5 +6,4 @@ Create a write-up
 
 # Model Performance -- Do These Next
 
-Explore interaction terms
-Try XGBoost
+Examine performance of XGBoost
