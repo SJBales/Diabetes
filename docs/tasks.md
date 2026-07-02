@@ -1,9 +1,9 @@
 # To-Do's
 
-Update design.md
 Write unit tests
 Create a write-up
 
-# Model Performance -- Do These Next
+# Next Session
 
-Examine performance of XGBoost
+ - Refine design.md
+ - Write unit tests

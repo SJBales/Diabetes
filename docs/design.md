@@ -17,14 +17,36 @@ logger_config.py --> script for a function to configure a project-specific logge
 
 Each module is intended to contain key capabilities of the model to support production:
 - "preprocessor.py" defines the preprocessors for preparing the data that is fed to pipelines
-- "pipeline.py" creates a class for setting up the sklearn pipeline including a column transformer and defining data preprocessing steps of encoding and scaling. This script is also where the optimal hyperparameters are defined. 
-- "train.py" is a standalone scrip to train the model, save it in binary format to the models directory and examine test performance
+- "pipeline.py" creates a class for setting up the sklearn pipeline. These includ a column transformer and defining data preprocessing steps of encoding and scaling. Optimal hyperparamters are also defined in this module.
+- "train.py" is a standalone module to train the model, save it in binary format to the models directory, and examine test performance
+- "predict.py" is a standalone module to the model, data and make predictions for new records. Ideal implementation is for overnight batch predictions of new diabetes patients for serving in a frontend UI for hospital staff to evaluate patients.
 
 #### preprocessor.py
 
 Purpose: 
 Contains two classes to support preprocessing of data before it is fed to the pipeline: trainingPreprocessor and inferencePreprocessor. trainingPreprocessor has more methods, mostly for creating train and test splits which are not needed in production for inference.
 
-Refinements:
+Future Refinements:
 Methods .create_train_test() and .clean() need revamped. Controlling when a dataframe is returned from these modules is clunky and not intuitive. The suggested redesign is to have .clean() return the attributes of X_train, X_test, etc. instead of returning the results of train_test_split directly.
 
+#### pipeline.py
+
+Purpose:
+Defines the class getPipeline with two methods: .get_column_transformer() which creates a column transformer that contains all preprocessing steps and .make_training_pipeline() which constructs an end to end proprocessing + training model pipeline.
+
+Future Refinements:
+Currently the module is only set up to train a RF model and will return an eror if any other model is selected. This can be expanded to accept other model arguments if model evaluation suggests they will be useful.
+
+#### train.py
+
+This module implements classes from the preprocessor.py and pipeline.py modules. It wraps the trainingPreproessor and getPipeline classes in one function so the module can be called standalone to preprocess data, train the model and evaluate its performance.
+
+Future Refinements:
+The module can be extended to handle retraining of the model. It's currently configured for training the model for initial deployment.
+
+#### predict.py
+
+Leverages the inferenceProcessor from the preprocessor.py. This is a lighter-weight, less feature rich preprocessor specifically set up for inference preprocessing. The module returns for predictions for the data loaded as part of the make_predictions function.
+
+Future Refinements:
+This module is very bare bones and only implemented for demonstration purposes. There is no data pipeline for this to be implemented into. The module needs to be expanded to read new patient data and write predictions back to the database with proper error-handling and type checking to prevent errors.
