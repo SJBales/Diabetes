@@ -5,5 +5,5 @@ Create a write-up
 
 # Next Session
 
- - Refine design.md
- - Write unit tests
+ - Finish reading up on unit tests: https://realpython.com/pytest-python-testing/
+ 
