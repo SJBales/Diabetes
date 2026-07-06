@@ -5,5 +5,4 @@ Create a write-up
 
 # Next Session
 
- - Finish reading up on unit tests: https://realpython.com/pytest-python-testing/
- 
+- Write additional unit tests for other modules
