@@ -5,4 +5,9 @@ Create a write-up
 
 # Next Session
 
-- Write additional unit tests for other modules
+Write additional unit tests for modules:
+
+- Preprocessor --> done
+- Pipeline
+- Train
+- Predict
