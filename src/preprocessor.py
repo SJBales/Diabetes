@@ -133,7 +133,7 @@ class trainingPreprocessor:
 
         # Building X & y dataframes
         self.y = self.split_df['target']
-        self.X = self.split_df.drop(columns=drop_features)
+        self.X = self.split_df.drop(columns=drop_features, errors="ignore")
 
         # Logging completed work
         logger.info("Successfully created X & y dataframes")
