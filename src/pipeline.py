@@ -83,7 +83,7 @@ class getPipeline():
                                model="RF",
                                return_pipeline=True,
                                **params):
-        '''Method to create the end-to-end training pipeline for an RF mdoel'''
+        '''Method to create the end-to-end training pipeline for a RF mdoel'''
 
         # Setting up the column transformer
         if self.ct is None:
