@@ -1,4 +1,3 @@
-import pytest
 import pandas as pd
 from preprocessor import trainingPreprocessor
 
@@ -72,3 +71,44 @@ def test_training_processor(raw_input_features, raw_input_target):
         processor.split_df.reset_index(drop=True),
         expected_missing_df
     )
+
+    # Testing the method for creating X and y dataframes
+    processor.create_X_y()
+
+    pd.testing.assert_series_equal(
+        processor.y.reset_index(drop=True),
+        expected_missing_df['target'],
+        check_names=False
+    )
+
+    assert 'patient_nbr' not in processor.X.columns.values
+    assert 'target' not in processor.X.columns.values
+    assert 'max_glu_serum' not in processor.X.columns.values
+    assert len(processor.X) == len(processor.y)
+
+    # Testing the method for creating train and test splits
+    processor.create_train_test()
+
+    assert processor.X_train is not None
+    assert processor.X_test is not None
+    assert processor.y_train is not None
+    assert processor.y_test is not None
+    assert len(processor.X_train) == len(processor.y_train)
+    assert len(processor.X_test) == len(processor.y_test)
+    assert len(processor.X_train) != len(processor.X_test)
+
+    # Testing the master .clean() method
+    master_processor = trainingPreprocessor(raw_input_features,
+                                            raw_input_target)
+
+    master_processor.clean()
+
+    print(master_processor.X_train, processor.X_train)
+    pd.testing.assert_frame_equal(master_processor.X_train,
+                                  processor.X_train)
+    pd.testing.assert_frame_equal(master_processor.X_test,
+                                  processor.X_test)
+    pd.testing.assert_series_equal(master_processor.y_train,
+                                   processor.y_train)
+    pd.testing.assert_series_equal(master_processor.y_test,
+                                   processor.y_test)
