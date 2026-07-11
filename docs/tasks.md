@@ -8,6 +8,6 @@ Create a write-up
 Write additional unit tests for modules:
 
 - Preprocessor --> done
-- Pipeline
-- Train
+- Pipeline --> done
+- Train --> need to refine the fixture to ensure the training module is receiving all expected columns
 - Predict
