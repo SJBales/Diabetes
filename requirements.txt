@@ -7,7 +7,7 @@ cramjam==2.11.0
 cycler==0.12.1
 debugpy==1.8.20
 decorator==5.3.1
--e git+https://github.com/SJBales/Diabetes@647c96c9b10f2296afac1efec88d8529825c8a58#egg=diabetes
+-e git+https://github.com/SJBales/Diabetes@b16893060fa33b4856f91ae7e45d24561c0ecd91#egg=diabetes
 et_xmlfile==2.0.0
 executing==2.2.1
 fastparquet==2026.5.0
@@ -32,6 +32,7 @@ openpyxl==3.1.5
 packaging==26.2
 pandas==3.0.3
 parso==0.8.7
+path==17.1.1
 pexpect==4.9.0
 pillow==12.2.0
 platformdirs==4.10.0
