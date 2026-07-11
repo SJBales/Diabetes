@@ -3,9 +3,10 @@ from preprocessor import trainingPreprocessor
 
 expected_fe_df = pd.DataFrame({
         'patient_nbr': [12341234, 23452345, 34563456, 45674567],
-        'age': ['[20-30)', '[30-40)', '[40-50)]', '[30-40)]'],
+        'age': ['[20-30)', '[30-40)', '[40-50)', '[30-40)'],
         'race': ['Caucasian', 'AfricanAmerican', 'Hispanic', '?'],
         'admission_source_id': [1, 3, 7, 12],
+        'discharge_disposition_id': [1, 2, 5, 6],
         'A1Cresult': ['>8', '>7', 'Norm', 'None'],
         'max_glu_serum': ['None', '>300', 'Norm', '>200'],
         'insulin': ['No', 'Up', 'Down', 'Steady'],
@@ -22,9 +23,10 @@ expected_fe_df = pd.DataFrame({
 
 expected_missing_df = pd.DataFrame({
         'patient_nbr': [12341234, 23452345, 34563456, 45674567],
-        'age': ['[20-30)', '[30-40)', '[40-50)]', '[30-40)]'],
+        'age': ['[20-30)', '[30-40)', '[40-50)', '[30-40)'],
         'race': ['Caucasian', 'AfricanAmerican', 'Hispanic', '?'],
         'admission_source_id': [1, 3, 7, 12],
+        'discharge_disposition_id': [1, 2, 5, 6],
         'A1Cresult': ['>8', '>7', 'Norm', 'None'],
         'max_glu_serum': ['None', '>300', 'Norm', '>200'],
         'insulin': ['No', 'Up', 'Down', 'Steady'],
