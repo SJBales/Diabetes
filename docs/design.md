@@ -50,3 +50,7 @@ Leverages the inferenceProcessor from the preprocessor.py. This is a lighter-wei
 
 Future Refinements:
 This module is very bare bones and only implemented for demonstration purposes. There is no data pipeline for this to be implemented into. The module needs to be expanded to read new patient data and write predictions back to the database with proper error-handling and type checking to prevent errors.
+
+### Data Contract Enforcement
+
+Utilization of defined list of columns in the config.py to ensure all columns are passed between the pipeline, preprocessor and train modules. Fails loudly if not present.
