@@ -9,5 +9,7 @@ Write additional unit tests for modules:
 
 - Preprocessor --> done
 - Pipeline --> done
-- Train --> need to refine the fixture to ensure the training module is receiving all expected columns
-- Predict
+- Train --> done
+- Predict --> next
+
+Wire up usage of the predefined columns to enforce the contract
