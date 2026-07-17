@@ -6,8 +6,9 @@ import warnings
 from sklearn.model_selection import train_test_split
 
 # Local module imports
-from exceptions import NotProcessedError
+from exceptions import NotProcessedError, DataModelError
 from logger_config import setup_logger
+from config import DROP_COLS, NUMERIC_COLS, ONEHOT_COLS, ORINDAL_COLS
 
 # Setting up the logger
 setup_logger()
@@ -67,6 +68,16 @@ class trainingPreprocessor:
 
             self.first_encounter()
 
+        # Checking that split DF has the correct columns
+        df_cols = set(self.split_df.columns)
+        expected_cols = set(NUMERIC_COLS + ONEHOT_COLS + ORINDAL_COLS + DROP_COLS)
+
+        missing_cols = expected_cols - df_cols
+        extra_cols = df_cols - expected_cols
+
+        if missing_cols or extra_cols:
+            raise DataModelError(f"missing={sorted(missing_cols)} unexpected={sorted(extra_cols)}")
+
         # Creating a feature to indicate if a patient is not on insulin or metformin
         self.split_df['missing_insulin'] = (self.split_df.insulin == "No").astype(int)
         self.split_df['missing_metformin'] = (self.split_df.metformin == "No").astype(int)
@@ -118,18 +129,11 @@ class trainingPreprocessor:
             self.handle_missings()
 
         # List of features to drop
-        drop_features = ['patient_nbr', 'encounter_id', 'target',
-                         'repaglinide', 'nateglinide', 'chlorpropamide',
-                         'glimepiride', 'acetohexamide', 'glipizide',
-                         'glyburide', 'tolbutamide',
-                         'pioglitazone', 'rosiglitazone', 'acarbose',
-                         'miglitol', 'troglitazone',
-                         'tolazamide', 'examide', 'citoglipton', 'insulin',
-                         'glyburide.metformin', 'glipizide.metformin',
-                         'glimepiride.pioglitazone', 'metformin.rosiglitazone',
-                         'metformin.pioglitazone', 'metformin', 'insulin',
-                         'A1Cresult', 'weight', 'diag_1', 'diag_2', 'diag_3',
-                         'max_glu_serum', 'change']
+        drop_features = DROP_COLS
+
+        # Building X & y dataframes
+        self.y = self.split_df['target']
+        self.X = self.split_df.drop(columns=drop_features, errors="ignore")
 
         # Building X & y dataframes
         self.y = self.split_df['target']
@@ -192,6 +196,16 @@ class inferencePreprocessor:
 
             self.first_encounter()
 
+        # Checking that split DF has the correct columns
+        df_cols = set(self.split_df.columns)
+        expected_cols = set(NUMERIC_COLS + ONEHOT_COLS + ORINDAL_COLS + DROP_COLS)
+
+        missing_cols = expected_cols - df_cols
+        extra_cols = df_cols - expected_cols
+
+        if missing_cols or extra_cols:
+            raise DataModelError(f"missing={sorted(missing_cols)} unexpected={sorted(extra_cols)}")
+
         # Creating a feature to indicate if a patient is not on insulin or metformin
         self.split_df['missing_insulin'] = (self.split_df.insulin == "No").astype(int)
         self.split_df['missing_metformin'] = (self.split_df.metformin == "No").astype(int)
@@ -229,18 +243,10 @@ class inferencePreprocessor:
             raise NotProcessedError("Missing data has not been processed")
 
         # List of features to drop
-        drop_features = ['patient_nbr', 'encounter_id',
-                         'repaglinide', 'nateglinide', 'chlorpropamide',
-                         'glimepiride', 'acetohexamide', 'glipizide',
-                         'glyburide', 'tolbutamide',
-                         'pioglitazone', 'rosiglitazone', 'acarbose',
-                         'miglitol', 'troglitazone',
-                         'tolazamide', 'examide', 'citoglipton', 'insulin',
-                         'glyburide.metformin', 'glipizide.metformin',
-                         'glimepiride.pioglitazone', 'metformin.rosiglitazone',
-                         'metformin.pioglitazone', 'metformin', 'insulin',
-                         'A1Cresult', 'weight', 'diag_1', 'diag_2', 'diag_3',
-                         'max_glu_serum', 'change']
+        drop_features = DROP_COLS
+
+        # Building X & y dataframes
+        self.X = self.split_df.drop(columns=drop_features, errors="ignore")
 
         self.X = self.split_df.drop(columns=drop_features)
 
