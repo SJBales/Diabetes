@@ -5,9 +5,7 @@ Create a write-up
 
 ## Schema enforcement
 
-- Refine the definitions of list of columns to enforce at each stage of the data pipeline
-- Review features being one-hot in the preprocessor and ensure no duplicate columns are making it through to model training
-- Rewire preprocessor and train to import and utilize defined lists of columns in config.py
+- Rewire preprocessor and train to import and utilize defined lists of columns in config.py --> validate that this is making it through to the inferncePreprocessor and clean up complications with the target
 
 ## Tests
 
