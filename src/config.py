@@ -21,14 +21,14 @@ ONEHOT_COLS = ['race',
 
 ORINDAL_COLS = ['age']
 
-ENGINEERD_COLS = ['missing_insulin',
-                  'missing_metformin',
-                  'metformin_change',
-                  'insulin_change',
-                  'missing_weight',
-                  'payer_code_cleaned',
-                  'missing_a1c',
-                  'missing_max_glu_serum']
+ENGINEERED_COLS = ['missing_insulin',
+                   'missing_metformin',
+                   'metformin_change',
+                   'insulin_change',
+                   'missing_weight',
+                   'payer_code_cleaned',
+                   'missing_a1c',
+                   'missing_max_glu_serum']
 
 DROP_COLS = ['patient_nbr',
              'encounter_id',
@@ -64,3 +64,5 @@ DROP_COLS = ['patient_nbr',
              'diag_3',
              'max_glu_serum',
              'change']
+
+TARGET_COL = ['target']
