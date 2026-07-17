@@ -9,6 +9,7 @@ import logging
 # Local module imports
 from exceptions import ModelError
 from logger_config import setup_logger
+from config import ONEHOT_COLS, NUMERIC_COLS, ORDINAL_COLS, ENGINEERED_COLS
 
 # Setting up the logger
 setup_logger()
@@ -20,14 +21,10 @@ logger = logging.getLogger(__name__)
 class getPipeline():
 
     def __init__(self):
-        self.OHEFEATURES = ['race', 'gender', 'admission_type_id',
-                            'discharge_disposition_id', 'admission_source_id',
-                            'payer_code', 'medical_specialty']
-        self.SCALING_FEATURES = ['time_in_hospital', 'num_lab_procedures',
-                                 'num_procedures', 'num_medications',
-                                 'number_outpatient', 'number_inpatient',
-                                 'number_diagnoses']
-        self.ORDINAL_COLS = ['age']
+        self.OHEFEATURES = ONEHOT_COLS
+        self.SCALING_FEATURES = NUMERIC_COLS
+        self.ORDINAL_COLS = ORDINAL_COLS
+        self.ENGINEERED_COLS = ENGINEERED_COLS
         self.ct = None
         self.pipeline = None
 
@@ -68,7 +65,11 @@ class getPipeline():
                                  self.SCALING_FEATURES),
                                 ('ordinal_encoding',
                                  ordinal_pipeline,
-                                 self.ORDINAL_COLS)])
+                                 self.ORDINAL_COLS),
+                                ('pass',
+                                 'passthrough',
+                                 self.ENGINEERED_COLS)],
+                               remainder='drop')
 
         # Setting the output to return a pandas dataset
         ct.set_output(transform='pandas')
