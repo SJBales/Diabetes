@@ -5,3 +5,7 @@ class NotProcessedError(RuntimeError):
 
 class ModelError(ValueError):
     pass
+
+
+class DataModelError(ValueError):
+    pass
