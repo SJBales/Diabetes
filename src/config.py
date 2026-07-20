@@ -10,29 +10,25 @@ ONEHOT_COLS = ['race',
                'gender',
                'admission_type_id',
                'admission_source_id',
-               'discharge_disposition_id',
-               'A1Cresult',
-               'max_glu_serum',
-               'insulin',
-               'metformin',
-               'weight',
-               'payer_code',
-               'medical_specialty']
+               'discharge_disposition_id']
 
-ORINDAL_COLS = ['age']
+CLEANED_COLS = ['payer_code_cleaned',
+                'medical_specialty_cleaned']
+
+ORDINAL_COLS = ['age']
 
 ENGINEERED_COLS = ['missing_insulin',
                    'missing_metformin',
                    'metformin_change',
                    'insulin_change',
                    'missing_weight',
-                   'payer_code_cleaned',
                    'missing_a1c',
                    'missing_max_glu_serum']
 
 DROP_COLS = ['patient_nbr',
              'encounter_id',
-             'target',
+             'diabetesMed',
+             'number_emergency',
              'repaglinide',
              'nateglinide',
              'chlorpropamide',
@@ -63,6 +59,8 @@ DROP_COLS = ['patient_nbr',
              'diag_2',
              'diag_3',
              'max_glu_serum',
-             'change']
+             'change',
+             'medical_specialty',
+             'payer_code']
 
 TARGET_COL = ['target']
