@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 # Local module imports
 from exceptions import NotProcessedError, DataModelError
 from logger_config import setup_logger
-from config import DROP_COLS, NUMERIC_COLS, ONEHOT_COLS, ORINDAL_COLS
+from config import DROP_COLS, NUMERIC_COLS, ONEHOT_COLS, ORDINAL_COLS, TARGET_COL
 
 # Setting up the logger
 setup_logger()
@@ -70,7 +70,7 @@ class trainingPreprocessor:
 
         # Checking that split DF has the correct columns
         df_cols = set(self.split_df.columns)
-        expected_cols = set(NUMERIC_COLS + ONEHOT_COLS + ORINDAL_COLS + DROP_COLS)
+        expected_cols = set(NUMERIC_COLS + ONEHOT_COLS + ORDINAL_COLS + DROP_COLS + TARGET_COL)
 
         missing_cols = expected_cols - df_cols
         extra_cols = df_cols - expected_cols
@@ -129,7 +129,7 @@ class trainingPreprocessor:
             self.handle_missings()
 
         # List of features to drop
-        drop_features = DROP_COLS
+        drop_features = DROP_COLS + TARGET_COL
 
         # Building X & y dataframes
         self.y = self.split_df['target']
@@ -198,7 +198,7 @@ class inferencePreprocessor:
 
         # Checking that split DF has the correct columns
         df_cols = set(self.split_df.columns)
-        expected_cols = set(NUMERIC_COLS + ONEHOT_COLS + ORINDAL_COLS + DROP_COLS)
+        expected_cols = set(NUMERIC_COLS + ONEHOT_COLS + ORDINAL_COLS + DROP_COLS)
 
         missing_cols = expected_cols - df_cols
         extra_cols = df_cols - expected_cols

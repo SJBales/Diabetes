@@ -9,7 +9,7 @@ import logging
 # Local module imports
 from exceptions import ModelError
 from logger_config import setup_logger
-from config import ONEHOT_COLS, NUMERIC_COLS, ORDINAL_COLS, ENGINEERED_COLS
+from config import ONEHOT_COLS, NUMERIC_COLS, ORDINAL_COLS, ENGINEERED_COLS, CLEANED_COLS
 
 # Setting up the logger
 setup_logger()
@@ -21,9 +21,9 @@ logger = logging.getLogger(__name__)
 class getPipeline():
 
     def __init__(self):
-        self.OHEFEATURES = ONEHOT_COLS
+        self.OHEFEATURES = ONEHOT_COLS + CLEANED_COLS
         self.SCALING_FEATURES = NUMERIC_COLS
-        self.ORDINAL_COLS = ORDINAL_COLS
+        self.ORDINAL_COLS = ORDINAL_COLS 
         self.ENGINEERED_COLS = ENGINEERED_COLS
         self.ct = None
         self.pipeline = None
