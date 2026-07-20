@@ -1,11 +1,11 @@
 # To-Do's
 
 Write unit tests
-Create a write-up
+Revamp README
 
 ## Schema enforcement
 
-- Rewire preprocessor and train to import and utilize defined lists of columns in config.py --> validate that this is making it through to the inferncePreprocessor and clean up complications with the target
+
 
 ## Tests
 
