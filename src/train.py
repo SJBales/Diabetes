@@ -7,6 +7,8 @@ from sklearn.pipeline import Pipeline
 
 # Setting up the logger
 from logger_config import setup_logger
+from exceptions import DataModelError
+from config import NUMERIC_COLS, ONEHOT_COLS, ORDINAL_COLS, ENGINEERED_COLS, CLEANED_COLS
 
 setup_logger()
 logger = logging.getLogger(__name__)
@@ -29,6 +31,16 @@ def train_model(
     features, target = load_data()
     preprocessor = trainingPreprocessor(features, target)
     X_train, X_test, y_train, y_test = preprocessor.clean(return_df=True)
+
+    # Checking that split DF has the correct columns
+    df_cols = set(X_train.columns)
+    expected_cols = set(NUMERIC_COLS + ONEHOT_COLS + ORDINAL_COLS + ENGINEERED_COLS + CLEANED_COLS)
+
+    missing_cols = expected_cols - df_cols
+    extra_cols = df_cols - expected_cols
+
+    if missing_cols or extra_cols:
+        raise DataModelError(f"missing={sorted(missing_cols)} unexpected={sorted(extra_cols)}")
 
     training_pipeline = getPipeline().make_training_pipeline(
         model="RF", return_pipeline=True, **hypers
