@@ -1,14 +1,4 @@
 # To-Do's
 
-Write unit tests
-Revamp README
-
-## Schema enforcement
-
-
-
-## Tests
-
-Write additional unit tests for modules:
-
-- Predict
+- Finish unit tests for predict.py
+- Revamp README
