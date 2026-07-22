@@ -1,12 +1,10 @@
 # 30-Day Readmission For Diabetes Patients
 
-Identifying key contributors to diabetes patient readmission within 30 days and training a ML model to be deployed to predict which patients are most at risk for mitigation.
-
 # 1. Problem Statement & Goals
 
 ## Business Impact
 
-Hospital readmission within 30 days are a negative outcome for patients. A high 30-day readmission rate also affects Medicare reimbursement rates. Understading which patients are higher risk at discharge can help guide risk-management practices before discharge and identify patients for proactive outreach once released.
+Hospital readmission within 30 days is a highly negative outcome for patients. A high 30-day readmission rate also affects Medicare reimbursement rates as it is viewed as a marker of lower quality care. Understanding which patients are higher risk at discharge can help guide risk-management practices before discharge and identify patients for proactive outreach once released.
 
 ## Goals
 
@@ -16,13 +14,13 @@ This project has two goals:
 
 # 2. Dataset
 
-This project uses the DiabetesUS130 dataset from openML which contains the readmission status (target) and readmission risk factors (features) of diabetes patients at 130 US hospitals. 
+This project uses the DiabetesUS130 dataset from openML that contains the readmission status (target) and readmission risk factors (features) of diabetes patients at 130 US hospitals. 
 
 # 3. Methodology
 
 ## Evaluation Criteria
 
-Flagging patients as likely to readmit that don't (false positives) has a lower overall impact than missing patients that are likely to readmit (false negatives). False negatives cannot be fully optimized without considering false positives as it will add notification fatigue to the staff and impact their resourcing due to increased patient outreach. I will use recall to account for the relative greater impact of false negatives vs. false positives, but also monitor precision and average precision to balance false positives.
+Flagging patients as likely to readmit that don't (false positives) has a lower overall impact than missing patients that are likely to readmit (false negatives). False negatives cannot be fully optimized without considering false positives as it will add notification fatigue to the staff and impact their resourcing due to increased patient outreach. Recall was used to account for the relative greater impact of false negatives vs. false positives, but precision and average precision were included as evaluation metrics to balance the impact of false positives.
 
 # 4. Results
 
@@ -39,13 +37,13 @@ All dependency module requirements are captured in requirements.txt. To run the 
 
 ## Inference Predictions
 
-Making inference predictions is self-contained in src/train.py. To make predictions, run the script using python3 src/predict.py.
+Making inference predictions is self-contained in src/train.py. Run the script using the command python3 src/predict.py.
 
 ## Training
 
-Model training steps are implemented in the src/train.py script. To retrain the mode, use the command python3 src/train.py.
+Model training steps are implemented in the src/train.py script. Retrain the model using the command python3 src/train.py.
 
-Note that the optimal hyperparameters are hard-coded for consistency over time. The wrapper function can be modified to accept an an argument or hyperparameters can be directly modified if needed. However, this is only recommended after drifts in production have been observed and additional experimentation has been conducted to reassess optimal hyperparameters. 
+Note: optimal hyperparameters are hard-coded for consistency over time. The wrapper function can be modified to accept an an argument or hyperparameters can be directly modified if needed. However, this is only recommended after drifts in production have been observed and additional experimentation has been conducted to reassess optimal hyperparameters. 
 
 # 6. Limitations and Next Steps
 
@@ -53,9 +51,9 @@ Note that the optimal hyperparameters are hard-coded for consistency over time. 
 
 The dataset has a few limitations: 
 
-1. Some patients have several encounters, but there is no timestamp associated with the encounter to yield a definitive order. The first encounter based on encounter ID was retained for this project while the others were dropped. This is the most conservative and robust way of handling multiple encounters but information is certainly being lost (~25K rows)
-2. Several irrelevant features were included
-3. Key patient data that is easy to collect is missing like weight
+1. Some patients have several encounters but there is no timestamp associated with the encounter to yield a definitive order. Treatment history and patterns of the patient are likely useful for predicting future readmissin, but with no definitive indicator of visit order the observations were limited to the first encounter. This is the most conservative and robust way of handling multiple encounters but information is certainly being lost (~25K rows)
+2. Manual sparse features were included in the original dataset that were not included as features in the final model due to low feature importance
+3. Key data that is easy to collect (e.g. weight) and likely in other EHR database is missing
 
 ## Next Steps
 
