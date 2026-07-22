@@ -53,4 +53,4 @@ This module is very bare bones and only implemented for demonstration purposes. 
 
 ### Data Contract Enforcement
 
-Utilization of defined list of columns in the config.py to ensure all columns are passed between the pipeline, preprocessor and train modules. Fails loudly if not present.
+Several implied data contracts exist between the preprocessor, pipeline, train and predict modules. To ensure proper enforcement of the schema across the classes, specific groups of fields were defined in the config.py and used in each module to enforce the data schema contract. A specific SchemaError class was defined in the execeptions.py, and implemented with error checking logic that fails loudly if unexpected columns are introduced or expected columns are not carried through.
