@@ -26,4 +26,5 @@ def make_predictions() -> np.array:
 
 
 if __name__ == "__main__":
-    make_predictions()
+    preds = make_predictions()
+    print(f"Predictions: {preds}")
