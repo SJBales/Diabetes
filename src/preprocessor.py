@@ -232,6 +232,12 @@ class inferencePreprocessor:
 
         # Encoding Missing Payer Code and Medical Specialty
         self.split_df['payer_code_cleaned'] = self.split_df['payer_code']
+        self.split_df['medical_specialty_cleaned'] = self.split_df['medical_specialty']\
+            .apply(missing_cleaner, args=("?", "missing_medical_specialty"))
+
+        # Encoding Missing A1C and Max Glucose Serum
+        self.split_df['missing_a1c'] = (self.split_df['A1Cresult'] == "None").astype("int")
+        self.split_df['missing_max_glu_serum'] = (self.split_df['max_glu_serum'] == "None").astype("int")
 
         self.missing_processed_ = True
 
